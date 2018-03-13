@@ -1,50 +1,48 @@
 
+require 'find'
+
 print ("Caminho do projeto: ")
 path = gets.chomp()
 
-originalPath = 'e:\\projects\\LordWeasel\\HTML_Project\\'
+original_path = 'e:\\projects\\LordWeasel\\HTML_Project\\'
 path = 'e:\\projects\\LordWeasel\\HTML_Project\\'
 
-defaultSign = ""
+$slash = ""
 if path.include? "/"
-	defaultSign = "/"
+	$slash = "/"
 else
-	defaultSign = "\\"
+	$slash = "\\"
 end
 
-extension = [
+$extension = [
 	'html',
 	'xhtml',
 	'css',
 	'js'
 ]
 
-def findFiles( originalPath, path )
-	puts originalPath
-	puts path
+def find_files( original_path, path )
+	Find.find( "#{path}" ).select {
+		|file|
+		
+		if "#{file}".end_with? ("." << $extension[ 0 ])
+			puts file
+			
+		elsif "#{file}".end_with? ("." << $extension[ 1 ])
+			puts file
+			
+		elsif "#{file}".end_with? ("." << $extension[ 2 ])
+			puts file
+			
+		elsif "#{file}".end_with? ("." << $extension[ 3 ])
+			puts file
+						
+		end
+		
+	}
+
 	return 'ok'
+	
 end
 
-#findFiles( originalPath, path )
-
-Dir.foreach( path ) {
-	|x|
-	
-	if "#{x}" != '.' || "#{x}" != '..'
-		if "#{x}".end_with? ("." << extension[ 0 ])
-			puts "#{x}"
-		elsif "#{x}".end_with? ("." << extension[ 1 ])
-			puts "#{x}"
-		elsif "#{x}".end_with? ("." << extension[ 2 ])
-			puts "#{x}"
-		elsif "#{x}".end_with? ("." << extension[ 3 ])
-			puts "#{x}"
-		elsif "#{x}" == '.' || "#{x}" == '..'
-		else
-			puts "#{x}" << defaultSign
-			
-		end
-	
-	end
-	
-}
+find_files( original_path, path )
