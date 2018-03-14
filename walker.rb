@@ -2,41 +2,35 @@
 require 'find'
 
 print ("Caminho do projeto: ")
-path = gets.chomp()
+path = gets.chomp() # Input the project path
 
-original_path = 'e:\\projects\\LordWeasel\\HTML_Project\\'
-path = 'e:\\projects\\LordWeasel\\HTML_Project\\'
+path = 'e:\\projects\\LordWeasel\\HTML_Project\\' # It'll be removed. It's just to test.
 
-$slash = ""
-if path.include? "/"
-	$slash = "/"
-else
-	$slash = "\\"
-end
+$classes = Array.new # To store all classes found
 
-$extension = [
+$slash = "/"
+
+$extension = [ # All the knew extensions in the project, except CSS.
 	'html',
 	'xhtml',
-	'css',
 	'js'
 ]
 
-def find_files( original_path, path )
+def find_files( path )
 	Find.find( "#{path}" ).select {
 		|file|
-		
-		if "#{file}".end_with? ("." << $extension[ 0 ])
-			puts file
+
+		if $extension.any? { |word| file.include? ( word ) }
+			puts ( "\nFile ->  " << file )
 			
-		elsif "#{file}".end_with? ("." << $extension[ 1 ])
-			puts file
-			
-		elsif "#{file}".end_with? ("." << $extension[ 2 ])
-			puts file
-			
-		elsif "#{file}".end_with? ("." << $extension[ 3 ])
-			puts file
+			File.open( "#{file}", "r" ) do |reading|
+				reading.each_line do |line|
+					if line.include? "class"
+						puts ( "Line ->  " << line )
 						
+					end
+				end
+			end
 		end
 		
 	}
@@ -45,4 +39,4 @@ def find_files( original_path, path )
 	
 end
 
-find_files( original_path, path )
+find_files( path )
